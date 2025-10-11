@@ -1,4 +1,10 @@
+import "./styles.css";
 import { createProject } from "./createProjects.js";
+
+
+
+const projectBtn = document.querySelector("#createProj");
+
 
 
 const home = createProject("Home");

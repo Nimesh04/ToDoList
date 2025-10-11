@@ -9,8 +9,33 @@
     <header>
         <nav>
             <h1 class="heading">To Do</h1>
-            <button class="createProj">Create Project</button>
+            <button id="createProj">Create Project</button>
+            <div class="nav-list">
+                <p>Task Priorities:</p>
+                <ul>
+                    <li class="priorities"><button class="prioritiesBtn">High</button></li>
+                    <li class="priorities"><button class="prioritiesBtn">Medium</button></li>
+                    <li class="priorities"><button class="prioritiesBtn">Low</button></li>
+                </ul>
+            </div>
         </nav>
     </header>
+
+    <div class="projectSection">
+        <h3>New Project:</h3>
+        <form action="#">
+            <label for="title">Project Title:</label>
+            <input type="text" id="title" placeholder="Home">
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    
+    <div class="hero-section">
+        <h2 class="hero-heading">Tasks:</h2>
+        <button id="add-task">Add Task</button>
+        <div class="task-section">
+
+        </div>  
+    </div>
 </body>
 </html>

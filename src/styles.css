@@ -1,0 +1,99 @@
+:root{
+    margin: 0;
+    padding: 0;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background-color: rgb(214, 218, 219);
+    display: grid;
+    grid-template-columns: 250px 1fr;
+}
+header{
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(107, 171, 171);
+    border-right: solid 3px black;
+    min-height: 100vh;
+    text-align: center;
+}
+
+h1{
+    margin: 1.22rem 0 0.5rem 0;
+    font-size: 3rem;
+    border-bottom: solid 0.2rem white;
+}
+
+button{
+    padding: 0.8rem;
+    border: none;
+    border-radius: 0.8rem;
+    background-color: rgb(4, 157, 252);
+    color: white;
+    margin: 0.5rem;
+    font-size: 1.3rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+button:hover{
+    background-color:rgb(2, 127, 205);
+}
+
+
+#createProj{
+    width: 90%;
+    background-color: rgb(236, 100, 100);
+    transition: background-color 0.2s ease;
+}
+#createProj:hover{
+    background-color: rgb(160, 54, 54);
+}
+
+.nav-list{
+    margin-top: 0.5rem;
+}
+
+.nav-list > p {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+ul{
+    list-style: none;
+}
+
+.prioritiesBtn{
+    width: 90%;
+}
+
+.projectSection{
+    min-width: 250px;
+    min-height: 75px;
+    background-color: #f3e0ff;
+    border-radius: 0.8rem;
+    border: solid 0.05rem gray;
+    position: absolute;
+    padding: 1.5rem;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    left: 500px;
+    top: 200px;
+    gap: 1rem;
+}
+
+.hero-section{
+    padding: 1.5rem;
+}
+
+.hero-heading{
+    font-size: 2rem;
+    border-bottom: dotted 0.2rem gray;
+}
