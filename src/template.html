@@ -9,30 +9,71 @@
     <header>
         <nav>
             <h1 class="heading">To Do</h1>
-            <button id="createProj">Create Project</button>
+            <button id="createProj"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>plus</title><path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" /></svg> Create Project</button>
             <div class="nav-list">
-                <p>Task Priorities:</p>
+                <p>Task Priorities</p>
                 <ul>
-                    <li class="priorities"><button class="prioritiesBtn">High</button></li>
-                    <li class="priorities"><button class="prioritiesBtn">Medium</button></li>
-                    <li class="priorities"><button class="prioritiesBtn">Low</button></li>
+                    <li class="priorities">
+                        <div class="prioritiesBtn high">High</div>
+                    </li>
+                    <li class="priorities">
+                        <div class="prioritiesBtn medium">Medium</div>
+                    </li>
+                    <li class="priorities">
+                        <div class="prioritiesBtn low">Low</div>
+                    </li>
                 </ul>
+            </div>
+            <div class="projectsTab">
+                   <h2>Projects</h2> 
             </div>
         </nav>
     </header>
 
     <div class="projectSection">
-        <h3>New Project:</h3>
-        <form action="#">
-            <label for="title">Project Title:</label>
-            <input type="text" id="title" placeholder="Home">
-            <button type="submit">Submit</button>
-        </form>
+        <div class="background-section">
+            <div class="projectSection-heading">
+                <h3>New Project</h3>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>close-thick</title><path d="M20 6.91L17.09 4L12 9.09L6.91 4L4 6.91L9.09 12L4 17.09L6.91 20L12 14.91L17.09 20L20 17.09L14.91 12L20 6.91Z" /></svg>
+            </div>
+            <form class="titleForm">
+                    <label for="title">Project Title</label>
+                    <input type="text" id="title" placeholder="Home">
+                    <button type="submit">Submit</button>   
+
+            </form>
+        </div>
+    </div>
+
+    <div class="taskSection">
+        <div class="background-section">
+            <div class="taskSection-heading">
+                <h3>New Task</h3>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>close-thick</title><path d="M20 6.91L17.09 4L12 9.09L6.91 4L4 6.91L9.09 12L4 17.09L6.91 20L12 14.91L17.09 20L20 17.09L14.91 12L20 6.91Z" /></svg>
+            </div>
+            <form class="taskForm">
+                <label for="title">Task</label>
+                <input type="text" id="title" placeholder="Laundry">
+                <label for="description">Description</label>
+                <textarea type="text" id="description" placeholder="Need to finish laundry" rows="5" cols="5"></textarea>
+                <label for="task-priority">Priority</label>
+                <select name="Priority" id="task-priority">
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                </select>
+                <label for="dueDate">Due Date</label>
+                <input type="date" id="dueDate">
+                <button type="submit">Submit</button>   
+            </form>
+        </div>
     </div>
     
     <div class="hero-section">
-        <h2 class="hero-heading">Tasks:</h2>
-        <button id="add-task">Add Task</button>
+        <div class="heroSection-heading">
+            <h2 class="hero-heading">Tasks</h2>
+            <button id="add-task"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>plus</title><path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" /></svg>Add Task</button>
+        </div>
         <div class="task-section">
 
         </div>  
