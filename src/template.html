@@ -25,7 +25,7 @@
                 </ul>
             </div>
             <div class="projectsTab">
-                   <h2>Projects</h2> 
+                <h2>Projects</h2>
             </div>
         </nav>
     </header>
@@ -53,17 +53,17 @@
             </div>
             <form class="taskForm">
                 <label for="title">Task</label>
-                <input type="text" id="title" placeholder="Laundry">
+                <input type="text" id="title" name="title" placeholder="Laundry">
                 <label for="description">Description</label>
-                <textarea type="text" id="description" placeholder="Need to finish laundry" rows="5" cols="5"></textarea>
+                <textarea type="text" id="description" name="description" placeholder="Need to finish laundry" rows="5" cols="5"></textarea>
                 <label for="task-priority">Priority</label>
                 <select name="Priority" id="task-priority">
-                    <option value="High">High</option>
-                    <option value="Medium">Medium</option>
-                    <option value="Low">Low</option>
+                    <option value="High" name="high">High</option>
+                    <option value="Medium" name="medium">Medium</option>
+                    <option value="Low" name="low">Low</option>
                 </select>
                 <label for="dueDate">Due Date</label>
-                <input type="date" id="dueDate">
+                <input type="date"  name="dueDate" id="dueDate">
                 <button type="submit">Submit</button>   
             </form>
         </div>
@@ -75,7 +75,6 @@
             <button id="add-task"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>plus</title><path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" /></svg>Add Task</button>
         </div>
         <div class="task-section">
-
         </div>  
     </div>
 </body>
