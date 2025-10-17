@@ -82,6 +82,8 @@ taskCloseBtn.addEventListener("click", ()=>{
 
 projectsTabDiv.addEventListener("click", (event) =>{
     if(event.target.matches(".projects")){
+        document.querySelector(".active")?.classList.remove("active");
+        event.target.classList.add("active");
         const carry = projectsArr.filter(project => project.uuid == event.target.dataset.id);
         currentProject = carry[0];
         heroHeading.textContent = `${currentProject.projectName}`;
@@ -94,15 +96,23 @@ projectsTabDiv.addEventListener("click", (event) =>{
 function checkTask(){
     const taskList = currentProject.tasks();
     console.log("taskList:", taskList);
-    const taskDiv = document.createElement("div");
-    taskDiv.classList.add("task-list");
+
     taskList.forEach(element => {
+        const taskDiv = document.createElement("div");
+        taskDiv.classList.add("task-list");
         console.log("element:", element);
-        taskDiv.innerHTML += 
-        `<p>Title : <span>${element.title}</span>  Due Date: <span>${element.dueDate}</p>
-        <p> Description:</p>
-        <p>${element.description}</p>
-        <input type="checkbox" name="completed" id="completed>`;
+        taskDiv.innerHTML = 
+        `<div class="left">
+            <input type="checkbox" name="checkbox" id="checkBox">
+        </div>
+        <div class="middle">
+            <p>${element.title}  <span>${element.priority}</span> </p>    
+            <p>${element.description}</p>
+            <p>${element.dueDate}</p>
+        </div>
+        <div class="right">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>trash-can-outline</title><path d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z" /></svg>
+        </div>`
         taskSectionDiv.appendChild(taskDiv);
     });
 }
