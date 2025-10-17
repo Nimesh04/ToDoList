@@ -1,5 +1,6 @@
 import "./styles.css";
 import { createProject } from "./createProjects.js";
+import { dummyProject } from "./defaultProjects.js";
 
 
 
@@ -13,9 +14,21 @@ const titleForm = document.querySelector(".titleForm");
 const taskForm = document.querySelector(".taskForm");
 const projectsTabDiv = document.querySelector(".projectsTab");
 const taskSectionDiv = document.querySelector(".task-section");
+const heroHeading = document.querySelector(".hero-heading");
 
 let currentProject = '';
 let projectsArr = [];
+
+
+
+
+if(projectsArr.length == 0){
+    projectsArr.push(dummyProject);
+    currentProject = dummyProject;
+    addProjects(dummyProject);
+    checkTask();
+    heroHeading.textContent = `${currentProject.projectName}`;
+}
 
 projectBtn.addEventListener("click", () =>{
     projectSection.style.display = "flex";
@@ -24,28 +37,32 @@ projectBtn.addEventListener("click", () =>{
 taskBtn.addEventListener("click", () =>{
     taskSection.style.display = "flex";
 })
-
+function addProjects(name){
+    const projects = document.createElement("p");
+    projects.classList.add("projects");
+    projects.dataset.id = `${name.uuid}`;
+    projects.textContent = `#${name.projectName}`;
+    projectsTabDiv.appendChild(projects);
+}
 
 titleForm.addEventListener("submit", event =>{
     event.preventDefault();
     const title = document.querySelector("#title").value;
-    const uuid = crypto.randomUUID();
-    const project = createProject(title, uuid);
+    const project = createProject(title);
     projectsArr.push(project);
-    const projects = document.createElement("p");
-    projects.classList.add("projects");
-    projects.dataset.id = `${uuid}`;
-    projects.textContent = `#${title}`;
-    projectsTabDiv.appendChild(projects);
+    addProjects(project);
     document.querySelector("#title").value = '';
     projectSection.style.display = "none";
     // console.log("Project name:",project.projectName, projectsArr);
 })
 
+
+
 taskForm.addEventListener("submit", event =>{
     event.preventDefault();
     const formData = new FormData(taskForm);
     const dataObject = Object.fromEntries(formData.entries());
+    console.log("current: ", currentProject);
     currentProject.addToDo(dataObject.title, dataObject.description, dataObject.dueDate, dataObject.Priority );
     taskForm.reset();
     taskSection.style.display = "none";
@@ -65,8 +82,11 @@ taskCloseBtn.addEventListener("click", ()=>{
 
 projectsTabDiv.addEventListener("click", (event) =>{
     if(event.target.matches(".projects")){
-        const carry = projectsArr.filter(project => project.id == event.target.dataset.id);
+        const carry = projectsArr.filter(project => project.uuid == event.target.dataset.id);
         currentProject = carry[0];
+        heroHeading.textContent = `${currentProject.projectName}`;
+        taskSectionDiv.innerHTML = '';
+        checkTask();
     }
 })
 
@@ -78,9 +98,7 @@ function checkTask(){
     taskDiv.classList.add("task-list");
     taskList.forEach(element => {
         console.log("element:", element);
-        // {title: 'fsadf', description: 'fsdafa', dueDate: '2025-10-16',
-        //  priority: 'High', completed: false}
-        taskDiv.innerHTML = 
+        taskDiv.innerHTML += 
         `<p>Title : <span>${element.title}</span>  Due Date: <span>${element.dueDate}</p>
         <p> Description:</p>
         <p>${element.description}</p>
