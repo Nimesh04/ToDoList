@@ -61,15 +61,18 @@ button:hover{
     background-color:rgb(56, 74, 86);
 }
 
-.high:hover{
+
+
+
+.High, .high:hover{
     background-color: rgb(236, 100, 100);;
 }
 
-.medium:hover{
+.Medium, .medium:hover{
     background-color: rgb(59, 117, 182);;
 }
-.low:hover{
-    background-color: rgb(154, 208, 244);;
+.Low, .low:hover{
+    background-color: rgb(136, 198, 239);;
 }
 
 
@@ -139,6 +142,7 @@ ul{
     justify-content: center;
     align-items: center;
     background-color: rgba(0, 0, 0, 0.697);
+    z-index: 1;
 }
 
 .background-section{
@@ -261,9 +265,9 @@ form select, form select > option{
     padding: 1.5rem;
     font-size: 1.6rem;
     font-weight: bold;
-    background-color: #ffe1e1;
     border-radius: 0.8rem;
-    border-left: solid 0.4rem red;
+    border-left: solid red 2px;
+    background-color:#f6eeff;
     cursor: pointer;
     transition: box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1);
 }
@@ -289,7 +293,7 @@ form select, form select > option{
     margin-left: 1rem;
     border-radius: 0.4rem;
     padding: 0 0.4rem;
-    background-color: rgb(0, 195, 255);
+    /* background-color: rgb(0, 195, 255); */
 }
 
 

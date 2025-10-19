@@ -16,17 +16,16 @@ const projectsTabDiv = document.querySelector(".projectsTab");
 const taskSectionDiv = document.querySelector(".task-section");
 const heroHeading = document.querySelector(".hero-heading");
 
+
 let currentProject = '';
 let projectsArr = [];
-
-
 
 
 if(projectsArr.length == 0){
     projectsArr.push(dummyProject);
     currentProject = dummyProject;
     addProjects(dummyProject);
-    checkTask();
+    checkTask(currentProject.tasks());
     heroHeading.textContent = `${currentProject.projectName}`;
 }
 
@@ -66,7 +65,7 @@ taskForm.addEventListener("submit", event =>{
     currentProject.addToDo(dataObject.title, dataObject.description, dataObject.dueDate, dataObject.Priority );
     taskForm.reset();
     taskSection.style.display = "none";
-    checkTask();
+    checkTask(currentProject.tasks());
 })
 
 projectCloseBtn.addEventListener("click", ()=>{
@@ -88,22 +87,28 @@ projectsTabDiv.addEventListener("click", (event) =>{
         currentProject = carry[0];
         heroHeading.textContent = `${currentProject.projectName}`;
         taskSectionDiv.innerHTML = '';
-        checkTask();
+        const taskList = currentProject.tasks();
+        console.log("taskList:", taskList);
+        checkTask(taskList);
     }
 })
 
 
-function checkTask(){
-    const taskList = currentProject.tasks();
-    console.log("taskList:", taskList);
 
+// right now we're clearing the entire task section div every time we add a new task or we open
+// new things and adding the priority color to appropriate to it's urgency
+function checkTask(taskList){
+    taskSectionDiv.innerHTML = '';
+
+        
     taskList.forEach(element => {
         const taskDiv = document.createElement("div");
         taskDiv.classList.add("task-list");
+        
         console.log("element:", element);
         taskDiv.innerHTML = 
         `<div class="left">
-            <input type="checkbox" name="checkbox" id="checkBox">
+            <input type="checkbox" name="checkbox">
         </div>
         <div class="middle">
             <p>${element.title}  <span>${element.priority}</span> </p>    
@@ -113,6 +118,29 @@ function checkTask(){
         <div class="right">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>trash-can-outline</title><path d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z" /></svg>
         </div>`
+        const middleSpan = taskDiv.querySelector(".middle span");
+        if( element.priority == "High"){
+            middleSpan.classList.add("High");
+        }else if(element.priority =="Medium"){
+            middleSpan.classList.add("Medium");
+        }else if(element.priority == "Low"){
+            middleSpan.classList.add("Low");
+        }
         taskSectionDiv.appendChild(taskDiv);
+        
+        
     });
+
 }
+
+taskSectionDiv.addEventListener("input", event =>{
+    const taskList = event.target.closest(".task-list");
+    if(event.target.checked){
+        taskList.style.textDecoration = "line-through";
+        taskList.style.backgroundColor = "#d6d4d6";
+    }
+    if(event.target.checked == false){
+        taskList.style.textDecoration = "none";
+        taskList.style.backgroundColor = "#f6eeff";
+    }
+})
