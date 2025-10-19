@@ -2,7 +2,7 @@ import "./styles.css";
 import { createProject } from "./createProjects.js";
 import { dummyProject } from "./defaultProjects.js";
 
-
+// import "./taskManager.js";
 
 const projectBtn = document.querySelector("#createProj");
 const projectSection = document.querySelector(".projectSection");
@@ -86,7 +86,7 @@ projectsTabDiv.addEventListener("click", (event) =>{
         const carry = projectsArr.filter(project => project.uuid == event.target.dataset.id);
         currentProject = carry[0];
         heroHeading.textContent = `${currentProject.projectName}`;
-        taskSectionDiv.innerHTML = '';
+        // taskSectionDiv.innerHTML = '';
         const taskList = currentProject.tasks();
         console.log("taskList:", taskList);
         checkTask(taskList);
@@ -98,15 +98,13 @@ projectsTabDiv.addEventListener("click", (event) =>{
 // right now we're clearing the entire task section div every time we add a new task or we open
 // new things and adding the priority color to appropriate to it's urgency
 function checkTask(taskList){
-    taskSectionDiv.innerHTML = '';
-
-        
+    // taskSectionDiv.innerHTML = '';
     taskList.forEach(element => {
         const taskDiv = document.createElement("div");
         taskDiv.classList.add("task-list");
-        
+        taskDiv.dataset.name = `${element.title}`;
         console.log("element:", element);
-        taskDiv.innerHTML = 
+        taskDiv.innerHTML += 
         `<div class="left">
             <input type="checkbox" name="checkbox">
         </div>
@@ -126,21 +124,37 @@ function checkTask(taskList){
         }else if(element.priority == "Low"){
             middleSpan.classList.add("Low");
         }
-        taskSectionDiv.appendChild(taskDiv);
-        
-        
+        taskSectionDiv.appendChild(taskDiv);   
     });
 
 }
 
 taskSectionDiv.addEventListener("input", event =>{
     const taskList = event.target.closest(".task-list");
+    const indexElm = currentProject.tasks().filter(name => name.title == taskList.dataset.name);
+    console.log(indexElm);
     if(event.target.checked){
+        indexElm.completed = true;
         taskList.style.textDecoration = "line-through";
         taskList.style.backgroundColor = "#d6d4d6";
     }
     if(event.target.checked == false){
+        indexElm.completed = false;
         taskList.style.textDecoration = "none";
         taskList.style.backgroundColor = "#f6eeff";
+    }
+})
+
+// task remove button
+taskSectionDiv.addEventListener("click", event =>{
+    if(event.target.closest("svg")){
+        const elm = event.target.closest(".task-list");
+        const indexElm = currentProject.tasks().filter(name => name.title == elm.dataset.name);
+        const index = currentProject.tasks()
+                        .map(name =>name.title)
+                        .indexOf(`${indexElm[0].title}`);
+        currentProject.tasks().splice(index, 1);
+        console.log(currentProject.tasks());
+        elm.remove();
     }
 })
