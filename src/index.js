@@ -1,6 +1,7 @@
 import "./styles.css";
 import { createProject } from "./createProjects.js";
 import { dummyProject } from "./defaultProjects.js";
+import { format, formatDistance } from "date-fns";
 
 // import "./taskManager.js";
 
@@ -61,8 +62,19 @@ taskForm.addEventListener("submit", event =>{
     event.preventDefault();
     const formData = new FormData(taskForm);
     const dataObject = Object.fromEntries(formData.entries());
-    console.log("current: ", currentProject);
-    currentProject.addToDo(dataObject.title, dataObject.description, dataObject.dueDate, dataObject.Priority );
+    let resultDate;
+    if(dataObject.dueDate){
+        console.log(dataObject.dueDate);
+        const date = dataObject.dueDate.split("-");
+        console.log(date);
+        const dateFormat = format(new Date(date[0], date[1]-1, date[2]), 'MM/dd/yy')
+        const dateFrame = formatDistance(
+            new Date(),
+            new Date(date[0], date[1]-1, date[2])
+        )
+        resultDate = `${dateFormat} | ${dateFrame}`;
+    }
+    currentProject.addToDo(dataObject.title, dataObject.description, resultDate, dataObject.Priority );
     taskForm.reset();
     taskSection.style.display = "none";
     checkTask(currentProject.tasks());
@@ -93,12 +105,10 @@ projectsTabDiv.addEventListener("click", (event) =>{
     }
 })
 
-
-
 // right now we're clearing the entire task section div every time we add a new task or we open
 // new things and adding the priority color to appropriate to it's urgency
 function checkTask(taskList){
-    // taskSectionDiv.innerHTML = '';
+    taskSectionDiv.innerHTML = '';
     taskList.forEach(element => {
         const taskDiv = document.createElement("div");
         taskDiv.classList.add("task-list");
@@ -124,6 +134,12 @@ function checkTask(taskList){
         }else if(element.priority == "Low"){
             middleSpan.classList.add("Low");
         }
+
+        if(element.completed){
+            taskDiv.querySelector(".left > input").checked = true;
+            taskDiv.style.textDecoration = "line-through";
+            taskDiv.style.backgroundColor = "#d6d4d6";
+        }
         taskSectionDiv.appendChild(taskDiv);   
     });
 
@@ -134,12 +150,12 @@ taskSectionDiv.addEventListener("input", event =>{
     const indexElm = currentProject.tasks().filter(name => name.title == taskList.dataset.name);
     console.log(indexElm);
     if(event.target.checked){
-        indexElm.completed = true;
+        indexElm[0].completed = true;
         taskList.style.textDecoration = "line-through";
         taskList.style.backgroundColor = "#d6d4d6";
     }
     if(event.target.checked == false){
-        indexElm.completed = false;
+        indexElm[0].completed = false;
         taskList.style.textDecoration = "none";
         taskList.style.backgroundColor = "#f6eeff";
     }
