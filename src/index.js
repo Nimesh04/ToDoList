@@ -2,6 +2,8 @@ import "./styles.css";
 import { createProject } from "./createProjects.js";
 import { dummyProject } from "./defaultProjects.js";
 import { format, formatDistance } from "date-fns";
+import { loadStorage,populateStorage } from "./taskManager.js";
+import { gatherTask } from "./changePriority.js";
 
 // import "./taskManager.js";
 
@@ -16,19 +18,28 @@ const taskForm = document.querySelector(".taskForm");
 const projectsTabDiv = document.querySelector(".projectsTab");
 const taskSectionDiv = document.querySelector(".task-section");
 const heroHeading = document.querySelector(".hero-heading");
+const prioritiesBtn = document.querySelectorAll(".prioritiesBtn");
 
 
 let currentProject = '';
-let projectsArr = [];
+let projectsArr = loadStorage();
 
 
-if(projectsArr.length == 0){
-    projectsArr.push(dummyProject);
-    currentProject = dummyProject;
-    addProjects(dummyProject);
+function initializeApp() {
+    if (projectsArr.length === 0) {
+        projectsArr.push(dummyProject);
+        populateStorage(projectsArr);
+        currentProject = projectsArr[0];
+    } else {
+        currentProject = projectsArr[0];
+    }
+    projectsArr.forEach(addProjects);
     checkTask(currentProject.tasks());
-    heroHeading.textContent = `${currentProject.projectName}`;
+    heroHeading.textContent = currentProject.projectName;
 }
+
+initializeApp();
+
 
 projectBtn.addEventListener("click", () =>{
     projectSection.style.display = "flex";
@@ -37,6 +48,7 @@ projectBtn.addEventListener("click", () =>{
 taskBtn.addEventListener("click", () =>{
     taskSection.style.display = "flex";
 })
+
 function addProjects(name){
     const projects = document.createElement("p");
     projects.classList.add("projects");
@@ -50,10 +62,10 @@ titleForm.addEventListener("submit", event =>{
     const title = document.querySelector("#title").value;
     const project = createProject(title);
     projectsArr.push(project);
+    populateStorage(projectsArr);
     addProjects(project);
     document.querySelector("#title").value = '';
     projectSection.style.display = "none";
-    // console.log("Project name:",project.projectName, projectsArr);
 })
 
 
@@ -64,9 +76,7 @@ taskForm.addEventListener("submit", event =>{
     const dataObject = Object.fromEntries(formData.entries());
     let resultDate;
     if(dataObject.dueDate){
-        console.log(dataObject.dueDate);
         const date = dataObject.dueDate.split("-");
-        console.log(date);
         const dateFormat = format(new Date(date[0], date[1]-1, date[2]), 'MM/dd/yy')
         const dateFrame = formatDistance(
             new Date(),
@@ -75,6 +85,7 @@ taskForm.addEventListener("submit", event =>{
         resultDate = `${dateFormat} | ${dateFrame}`;
     }
     currentProject.addToDo(dataObject.title, dataObject.description, resultDate, dataObject.Priority );
+    populateStorage(projectsArr);
     taskForm.reset();
     taskSection.style.display = "none";
     checkTask(currentProject.tasks());
@@ -100,6 +111,7 @@ projectsTabDiv.addEventListener("click", (event) =>{
         heroHeading.textContent = `${currentProject.projectName}`;
         // taskSectionDiv.innerHTML = '';
         const taskList = currentProject.tasks();
+        console.log(projectsArr);
         console.log("taskList:", taskList);
         checkTask(taskList);
     }
@@ -113,7 +125,6 @@ function checkTask(taskList){
         const taskDiv = document.createElement("div");
         taskDiv.classList.add("task-list");
         taskDiv.dataset.name = `${element.title}`;
-        console.log("element:", element);
         taskDiv.innerHTML += 
         `<div class="left">
             <input type="checkbox" name="checkbox">
@@ -148,7 +159,6 @@ function checkTask(taskList){
 taskSectionDiv.addEventListener("input", event =>{
     const taskList = event.target.closest(".task-list");
     const indexElm = currentProject.tasks().filter(name => name.title == taskList.dataset.name);
-    console.log(indexElm);
     if(event.target.checked){
         indexElm[0].completed = true;
         taskList.style.textDecoration = "line-through";
@@ -159,6 +169,7 @@ taskSectionDiv.addEventListener("input", event =>{
         taskList.style.textDecoration = "none";
         taskList.style.backgroundColor = "#f6eeff";
     }
+    populateStorage(projectsArr);
 })
 
 // task remove button
@@ -170,7 +181,26 @@ taskSectionDiv.addEventListener("click", event =>{
                         .map(name =>name.title)
                         .indexOf(`${indexElm[0].title}`);
         currentProject.tasks().splice(index, 1);
-        console.log(currentProject.tasks());
         elm.remove();
+        populateStorage(projectsArr);
     }
+})
+
+let list;
+prioritiesBtn.forEach(elm =>{
+    
+    elm.addEventListener("click", (event)=>{
+        if(event.target.textContent =="All task"){
+            list = gatherTask("all task");
+            console.log("list: ", list);
+            
+        }else if(event.target.textContent =="High"){
+            list = gatherTask("High");
+        }else if(event.target.textContent =="Medium"){
+            list = gatherTask("Medium");
+        }else if(event.target.textContent =="Low"){
+           list = gatherTask("Low");
+        }
+        checkTask(list);
+    });
 })
