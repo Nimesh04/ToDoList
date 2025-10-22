@@ -4,6 +4,7 @@ import { dummyProject } from "./defaultProjects.js";
 import { format, formatDistance } from "date-fns";
 import { loadStorage,populateStorage } from "./taskManager.js";
 import { gatherTask } from "./changePriority.js";
+import { el } from "date-fns/locale";
 
 // import "./taskManager.js";
 
@@ -50,10 +51,10 @@ taskBtn.addEventListener("click", () =>{
 })
 
 function addProjects(name){
-    const projects = document.createElement("p");
+    const projects = document.createElement("div");
     projects.classList.add("projects");
     projects.dataset.id = `${name.uuid}`;
-    projects.textContent = `#${name.projectName}`;
+    projects.innerHTML = `<p>#${name.projectName}</p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>trash-can-outline</title><path d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z" /></svg>`;
     projectsTabDiv.appendChild(projects);
 }
 
@@ -103,10 +104,20 @@ taskCloseBtn.addEventListener("click", ()=>{
 // so that the task can be added to the appropriate project.
 
 projectsTabDiv.addEventListener("click", (event) =>{
-    if(event.target.matches(".projects")){
+    // console.log(event.target);
+
+    if(event.target.matches(".projects > svg")){
+        const elm = event.target.closest(".projectsTab > div");
+        const carry = projectsArr.filter(project => project.uuid == event.target.closest(".projectsTab > div").dataset.id);
+        const index = projectsArr.indexOf(carry[0]);
+        projectsArr.splice(index, 1);
+        elm.remove();
+        populateStorage(projectsArr);
+    }
+    if(event.target.closest(".projectsTab > div")){
         document.querySelector(".active")?.classList.remove("active");
-        event.target.classList.add("active");
-        const carry = projectsArr.filter(project => project.uuid == event.target.dataset.id);
+        event.target.closest(".projectsTab > div").classList.add("active");
+        const carry = projectsArr.filter(project => project.uuid == event.target.closest(".projectsTab > div").dataset.id);
         currentProject = carry[0];
         heroHeading.textContent = `${currentProject.projectName}`;
         // taskSectionDiv.innerHTML = '';
@@ -188,11 +199,11 @@ taskSectionDiv.addEventListener("click", event =>{
 
 let list;
 prioritiesBtn.forEach(elm =>{
-    
     elm.addEventListener("click", (event)=>{
+        document.querySelector(".active")?.classList.remove("active");
+        event.target.classList.add("active");
         if(event.target.textContent =="All task"){
             list = gatherTask("all task");
-            console.log("list: ", list);
             
         }else if(event.target.textContent =="High"){
             list = gatherTask("High");

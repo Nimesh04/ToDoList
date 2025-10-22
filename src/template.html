@@ -41,7 +41,7 @@
             </div>
             <form class="titleForm">
                     <label for="title">Project Title</label>
-                    <input type="text" id="title" placeholder="Home">
+                    <input type="text" id="title" placeholder="Home" required>
                     <button type="submit">Submit</button>   
 
             </form>
@@ -56,8 +56,8 @@
             </div>
             <form class="taskForm">
                 <label for="title">Task</label>
-                <input type="text" id="title" name="title" placeholder="Laundry">
-                <label for="description">Description</label>
+                <input type="text" id="title" name="title" placeholder="Laundry" required>
+                <label for="description">Description(Optional)</label>
                 <textarea type="text" id="description" name="description" placeholder="Need to finish laundry" rows="5" cols="5"></textarea>
                 <label for="task-priority">Priority</label>
                 <select name="Priority" id="task-priority">
@@ -65,7 +65,7 @@
                     <option value="Medium" name="medium">Medium</option>
                     <option value="Low" name="low">Low</option>
                 </select>
-                <label for="dueDate">Due Date</label>
+                <label for="dueDate">Due Date (Optional)</label>
                 <input type="date"  name="dueDate" id="dueDate">
                 <button type="submit">Submit</button>   
             </form>

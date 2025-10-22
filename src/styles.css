@@ -242,14 +242,28 @@ form select, form select > option{
     gap: 0.8rem;
 }
 
-.projectsTab > p{
+.projectsTab > div{
     font-weight: 300;
     padding: 0.5rem;
     transition: background-color 0.3s ease-in-out;
     border-radius: 0.8rem 0 0 0.8rem;
     cursor: pointer;
+
 }
 
+.projectsTab >div:hover{
+    background-color: rgb(140, 242, 88);
+}
+
+.projectsTab > div{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.projectsTab > div > svg{
+    fill: red;
+}
 /* active project tab show with this: */
 .active{
     background-color: rgb(140, 242, 88);
