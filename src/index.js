@@ -54,7 +54,11 @@ function addProjects(name){
     const projects = document.createElement("div");
     projects.classList.add("projects");
     projects.dataset.id = `${name.uuid}`;
-    projects.innerHTML = `<p>#${name.projectName}</p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>trash-can-outline</title><path d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z" /></svg>`;
+    projects.innerHTML = `
+    <p>#${name.projectName}</p> 
+    <div>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>trash-can-outline</title><path d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z" /></svg>
+    </div>`;
     projectsTabDiv.appendChild(projects);
 }
 
@@ -106,7 +110,8 @@ taskCloseBtn.addEventListener("click", ()=>{
 projectsTabDiv.addEventListener("click", (event) =>{
     // console.log(event.target);
 
-    if(event.target.matches(".projects > svg")){
+    if(event.target.matches(".projects > div svg")){
+        console.log("WE hit the svg div");
         const elm = event.target.closest(".projectsTab > div");
         const carry = projectsArr.filter(project => project.uuid == event.target.closest(".projectsTab > div").dataset.id);
         const index = projectsArr.indexOf(carry[0]);

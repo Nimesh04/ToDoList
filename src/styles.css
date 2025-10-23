@@ -33,6 +33,11 @@ h1{
     font-weight: 600;
 }
 
+img{
+    width: 100px;
+    height: 100px;
+}
+
 button{
     padding: 0.8rem;
     border: none;
@@ -261,8 +266,13 @@ form select, form select > option{
     justify-content: space-between;
 }
 
-.projectsTab > div > svg{
+.projectsTab > div svg{
+    align-items: center;
     fill: red;
+    padding-top: 0.5rem;
+}
+.projectsTab > div svg:hover{
+    fill: White;
 }
 /* active project tab show with this: */
 .active{
