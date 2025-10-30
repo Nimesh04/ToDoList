@@ -303,6 +303,11 @@ form select, form select > option{
    box-shadow:  5px 7px 6px #8f8f8f8a;
 }
 
+.task-list.completed{
+    text-decoration: line-through;
+    background-color: #d6d4d6;
+}
+
 .middle{
     display: flex;
     flex-direction: column;
